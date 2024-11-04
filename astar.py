@@ -75,7 +75,23 @@ class Node:
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
     def update_neighbors(self, grid):
-        pass
+        # If not barriers add into neighbors list
+        self.neighbors = []
+        # Down
+        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier():
+            self.neighbors.append(grid[self.row + 1][self.col])
+        # Up
+        if self.row > 0 and not grid[self.row - 1][self.col].is_barrier():
+            self.neighbors.append(grid[self.row - 1][self.col])
+        
+        # Right
+        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier():
+            self.neighbors.append(grid[self.row][self.col + 1])
+        
+        # Left
+        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():
+            self.neighbors.append(grid[self.row][self.col - 1])
+        
 
     def __lt__(self, other):
         return False
@@ -87,6 +103,46 @@ def heuristic(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
     return abs(x1 - x2) + abs(y1 - y2)
+
+def algorithm(draw, grid, start, end):
+    count = 0
+    open_set = PriorityQueue()
+    open_set.put((0, count, start))
+    came_from = {}      # Previous node
+    g_score = {node: float("inf") for row in grid for node in row}
+    g_score[start] = 0
+    f_score = {node: float("inf") for row in grid for node in row}
+    f_score[start] = heuristic(start.get_pos(), end.get_pos())
+
+    open_set_hash = {start}
+
+    while not open_set.empty():
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        current = open_set.get()[2]     # Popping lowest value f_score
+        open_set_hash.remove(current)    
+        if current == end:      # found shortest path
+            return True    
+        
+        for neighbor in current.neighbors:
+            temp_g_score = g_score[current] + 1
+            if temp_g_score < g_score[neighbor]:
+                came_from[neighbor] = current
+                g_score[neighbor] = temp_g_score
+                f_score[neighbor] = temp_g_score + heuristic(neighbor.get_pos(), end.get_pos())
+                if neighbor not in open_set_hash:
+                    count += 1
+                    open_set.put((f_score[neighbor], count, neighbor))
+                    open_set_hash.add(neighbor)
+                    neighbor.make_open()
+
+        draw()
+
+        if current != start:
+            current.make_closed()
+    return False
 
 def make_grid(rows, width):
     grid = []
@@ -156,8 +212,23 @@ def main(win, width):
 
                 elif node != end_pos and node != start_pos:
                     node.make_barrier()
-            elif pygame.mouse.get_pressed()[2]: # Right mouse button
-                pass
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    pos = pygame.mouse.get_pos()
+                    row, col = get_clicked_pos(pos, ROWS, WIDTH)
+                    node = grid[row][col]
+                    node.reset()
+                    if node == start_pos:
+                        start_pos = None
+                    elif node == end_pos:
+                        end_pos = None
+                if event.key == pygame.K_SPACE and not started:
+                    for row in grid:
+                        for node in row:
+                            node.update_neighbors(grid)
+
+                    algorithm(lambda: draw(win, grid, ROWS, WIDTH), grid, start_pos, end_pos)
     pygame.quit()
 
 main(WIN, WIDTH)
