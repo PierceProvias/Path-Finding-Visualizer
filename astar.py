@@ -146,12 +146,14 @@ def main(win, width):
                 row, col = get_clicked_pos(pos, ROWS, WIDTH)
                 node = grid[row][col]
                 
-                if not start_pos:
+                if not start_pos and node != end_pos:
                     start_pos = node
                     start_pos.make_start()
-                elif not end_pos:
+
+                elif not end_pos and node != start_pos:
                     end_pos = node
                     end_pos.make_end()
+
                 elif node != end_pos and node != start_pos:
                     node.make_barrier()
             elif pygame.mouse.get_pressed()[2]: # Right mouse button
