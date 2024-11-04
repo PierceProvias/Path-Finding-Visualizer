@@ -222,21 +222,19 @@ def main(win, width):
                     node.make_barrier()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    pos = pygame.mouse.get_pos()
-                    row, col = get_clicked_pos(pos, ROWS, WIDTH)
-                    node = grid[row][col]
-                    node.reset()
-                    if node == start_pos:
-                        start_pos = None
-                    elif node == end_pos:
-                        end_pos = None
+                
                 if event.key == pygame.K_SPACE and not started:
                     for row in grid:
                         for node in row:
                             node.update_neighbors(grid)
-
                     algorithm(lambda: draw(win, grid, ROWS, WIDTH), grid, start_pos, end_pos)
+
+                if event.key == pygame.K_r:
+                    start_pos = None
+                    end_pos = None
+                    grid = make_grid(ROWS, WIDTH)
+
+                    
     pygame.quit()
 
 main(WIN, WIDTH)
