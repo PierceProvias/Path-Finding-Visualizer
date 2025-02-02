@@ -1,0 +1,44 @@
+# A* Pathfinding Algorithm Visualizer
+
+This project is a pathfinding algorithm visualizer built using Python and Pygame. It visualizes the A* (A-star) algorithm in real-time as it finds the shortest path between a start and end node in a grid-based environment.
+
+![GIF demo](C:\Users\provi\Desktop\AStar Pathfinding.gif)
+
+## Features
+
+- **Real-time visualization**: Watch the A* algorithm in action as it finds the shortest path.
+- **Interactive grid**: Click to place start and end points, as well as obstacles.
+
+## Requirements
+
+To run this project, you'll need:
+
+- Python 3.x
+- Pygame library
+
+### Installation
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/PierceProvias/Path-Finding-Visualizer.git
+   cd Path-Finding-Visualizer
+
+
+2. Create environment:
+    - On linux and macOS:
+    ```bash 
+    python3 -m venv env
+    source env/bin/activate
+    ```
+    - On windows
+    ```bash
+    python -m venv env
+    env\Scripts\activate.bat
+    ```
+
+3. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+
+
+
