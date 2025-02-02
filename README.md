@@ -2,7 +2,7 @@
 
 This project is a pathfinding algorithm visualizer built using Python and Pygame. It visualizes the A* (A-star) algorithm in real-time as it finds the shortest path between a start and end node in a grid-based environment.
 
-![GIF demo](C:\Users\provi\Desktop\AStar Pathfinding.gif)
+![Pathfinding Animation](assets/AStar\ Pathfinding.gif)
 
 ## Features
 
@@ -37,8 +37,7 @@ To run this project, you'll need:
     ```
 
 3. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
+    `pip install -r requirements.txt`
 
 
 
