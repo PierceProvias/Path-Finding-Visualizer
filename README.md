@@ -22,7 +22,7 @@ To run this project, you'll need:
    ```bash
    git clone https://github.com/PierceProvias/Path-Finding-Visualizer.git
    cd Path-Finding-Visualizer
-
+   ```
 
 2. Create environment:
     - On linux and macOS:
